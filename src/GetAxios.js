@@ -1,22 +1,34 @@
-import { Axios } from 'axios';
-import React,{useEfffect, useState} from 'react'
+import Axios  from 'axios';
+import React,{useEffect, useState} from 'react'
 
-const baseRUL = "https://jsonplaceholder.typicode.com/posts/1";
+const baseRUL = "https://jsonplaceholder.typicode.com/posts";
 
 function GetAxios() {
     
-   const [data, setData] = useState(null);
+   const [my_data, setData] = useState([]);
 
-    useEfffect(() => {
+    useEffect(() => {
         Axios.get(baseRUL).then((response) =>{
             setData(response.data);
         })
-    });
+    },[]);
   return (
     <>
-        <h1>{data.id}</h1>
-        <h1>{data.title}</h1>
-        <h1>{data.body}</h1>
+    {
+        my_data.map((item) => {
+                const {id, title, body} = item;
+                return(
+                    <div className='data' key={id}>
+                    <h1>{id}</h1>
+                    <h2>{title.slice(0,10)}</h2>
+                    <h3 >{body.slice(0,50).toUpperCase()}</h3>
+                    </div>
+                )
+        })
+    }
+        {/* <h1>{my_data.id}</h1>
+        <h1>{my_data.title}</h1>
+        <h1>{my_data.body}</h1> */}
     </>
   )
 }
